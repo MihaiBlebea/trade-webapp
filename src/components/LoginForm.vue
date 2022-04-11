@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="mb-3">
-			<label class="form-label">Username</label>
-			<input name="username" type="text" class="form-control" v-model="username">
+			<label class="form-label">Email</label>
+			<input name="email" type="email" class="form-control" v-model="email">
 		</div>
 		<div class="mb-3">
 			<label class="form-label">Password</label>
@@ -19,14 +19,14 @@ import { setApiToken } from "./../mixin.js"
 export default {
 	data() {
 		return {
-			username: "",
+			email: "",
 			password: ""
 		}
 	},
 	methods: {
 		submit() {
-			if (this.username === "") {
-				console.error("username not valid")
+			if (this.email === "") {
+				console.error("email not valid")
 				return
 			}
 
@@ -36,7 +36,7 @@ export default {
 			}
 
 			let payload = {
-				username: this.username,
+				email: this.email,
 				password: this.password
 			}
 
@@ -57,7 +57,7 @@ export default {
 			})
 		},
 		clear() {
-			this.username = ""
+			this.email = ""
 			this.password = ""
 		}
 	}

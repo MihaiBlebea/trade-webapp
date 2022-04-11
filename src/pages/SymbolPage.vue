@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { getApiToken } from "./../mixin.js"
 import axios from "axios"
 
 export default {
@@ -65,7 +66,7 @@ export default {
 	},
 	methods: {
 		getSymbol(symbol) {
-			let apiToken = this.getToken()
+			let apiToken = getApiToken()
 			if (apiToken === undefined) {
 				console.error("undefined api token")
 				return
@@ -73,7 +74,7 @@ export default {
 
 			let options = {
 				headers: {
-					"Authorization": "Bearer " + this.getToken()
+					"Authorization": "Bearer " + apiToken
 				}
 			}
 
@@ -94,8 +95,7 @@ export default {
 		},
 		placeOrder() {
 			this.$router.push("/order?direction=buy&symbol=" + this.symbol.symbol)
-		},
-		getToken: ()=> localStorage.getItem("apiToken")
+		}
 	},
 	mounted() {
 		this.getSymbol(this.name)
