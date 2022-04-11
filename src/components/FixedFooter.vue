@@ -1,5 +1,5 @@
 <template>
-	<footer class="footer bg-primary footer-fixed">
+	<footer class="footer bg-secondary footer-fixed">
 		<div class="container">
 			<div class="row justify-content-center mb-2">
 				<div class="col-12 col-md-6 row">
