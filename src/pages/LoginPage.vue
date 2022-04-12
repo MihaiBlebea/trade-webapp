@@ -1,5 +1,7 @@
 <template>
 	<div>
+		<h1 class="mb-4">Login</h1>
+
 		<LoginForm />
 	</div>
 </template>
