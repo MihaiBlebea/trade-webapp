@@ -3,18 +3,33 @@
 		<div class="container">
 			<div class="row justify-content-center mb-2">
 				<div class="col-12 col-md-6 row">
-					<div class="col d-flex justify-content-evenly">
-						<router-link to="/"><i class="fa fa-home"></i></router-link>
-						<router-link to="/discovery"><i class="fa fa-globe"></i></router-link>
-						<router-link to="/orders"><i class="fa fa-money"></i></router-link>
-						<router-link to="/portfolio"><i class="fa fa-suitcase"></i></router-link>
-						<router-link to="/account"><i class="fa fa-cogs"></i></router-link>
+					<div class="col d-flex justify-content-between">
+						<router-link to="/"><i class="fa fa-home" v-bind:class="{'active': isActive('/')}"></i></router-link>
+						<router-link to="/discovery"><i class="fa fa-globe" v-bind:class="{'active': isActive('/discovery')}"></i></router-link>
+						<router-link to="/orders"><i class="fa fa-money" v-bind:class="{'active': isActive('/orders')}"></i></router-link>
+						<router-link to="/portfolio"><i class="fa fa-suitcase" v-bind:class="{'active': isActive('/portfolio')}"></i></router-link>
+						<router-link to="/account"><i class="fa fa-cogs" v-bind:class="{'active': isActive('/account')}"></i></router-link>
 					</div>
 				</div>
 			</div>
 		</div>
     </footer>
 </template>
+
+<script>
+export default {
+	data() {
+		return {
+
+		}
+	},
+	methods: {
+		isActive(url) {
+			return this.$route.path === url
+		}
+	}
+}
+</script>
 
 <style scoped>
 .footer-fixed {
@@ -29,5 +44,9 @@ i {
 	font-size: 28px;
 	vertical-align: middle;
 	color: white;
+}
+
+.active {
+	color: rgb(246, 18, 197);
 }
 </style>
