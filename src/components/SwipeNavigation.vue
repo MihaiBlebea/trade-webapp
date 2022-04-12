@@ -57,12 +57,19 @@ export default {
 				return
 			}
 
-			if (this.touchStartX - this.touchEndX < 0) {
+			let distance = this.touchStartX - this.touchEndX
+
+			if (Math.abs(distance) < this.screenWidth() / 3) {
+				console.log("swipe length too small")
+				return
+			}
+
+			if (distance < 0) {
 				console.log("swipe right")
 				this.swipedRight()
 			}
 
-			if (this.touchStartX - this.touchEndX > 0) {
+			if (distance > 0) {
 				console.log("swipe left")
 				this.swipedLeft()
 			}
@@ -71,6 +78,9 @@ export default {
 		},
 		shouldIgnore() {
 			return !this.routes.includes(this.$route.path)
+		},
+		screenWidth() {
+			return screen.width
 		},
 		swipedRight() {
 			let currentIndex = this.currentIndex + 1
