@@ -1,11 +1,16 @@
 <template>
 	<div v-for="(pos, index) in positions" :key="index">
-		<h5 class="pointer" v-on:click="navigateToSymbol(pos.symbol)">
-			{{ pos.symbol }}
-		</h5>
-		<div class="d-flex justify-content-between">
-			<span>{{ pos.quantity }} shares</span>
-			<div class="pointer text-success" v-on:click="sellOrder(pos.symbol)">Sell</div>
+		<div class="d-flex">
+			<SymbolLogo class="me-3" :symbol="pos.symbol" />
+			<div class="w-100">
+				<h5 class="pointer" v-on:click="navigateToSymbol(pos.symbol)">
+					{{ pos.symbol }}
+				</h5>
+				<div class="d-flex justify-content-between">
+					<span>{{ pos.quantity }} shares</span>
+					<div class="pointer text-success" v-on:click="sellOrder(pos.symbol)">Sell</div>
+				</div>
+			</div>
 		</div>
 		<hr v-if="index < positions.length - 1"/>
 	</div>
@@ -14,8 +19,12 @@
 <script>
 import { getApiToken } from "./../mixin.js"
 import axios from "axios"
+import SymbolLogo from "./SymbolLogo.vue"
 
 export default {
+	components: {
+		SymbolLogo
+	},
 	data() {
 		return {
 			positions: []

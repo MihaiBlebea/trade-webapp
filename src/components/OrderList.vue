@@ -2,22 +2,31 @@
 	<div>
 		<h3 class="mb-3">Filled</h3>
 		<div class="mb-3" v-for="(order, index) in filled" :key="index">
-			
-			<h5 class="pointer" v-on:click="navigateToSymbol(order.symbol)">{{ order.symbol }}</h5>
-			<div class="d-flex justify-content-between">
-				<span class="text-muted">{{ order.direction }} x{{ order.quantity }}</span>
-				<div class="pointer text-success" v-on:click="sellOrder(order)">Sell</div>
+			<div class="d-flex">
+				<SymbolLogo class="me-3" :symbol="order.symbol" />
+				<div class="w-100">
+					<h5 class="pointer" v-on:click="navigateToSymbol(order.symbol)">{{ order.symbol }}</h5>
+					<div class="d-flex justify-content-between">
+						<span class="text-muted">{{ order.direction }} x{{ order.quantity }}</span>
+						<div class="pointer text-success" v-on:click="sellOrder(order)">Sell</div>
+					</div>
+				</div>
 			</div>
 
 			<hr v-if="index < filled.length - 1" />
 		</div>
+
 		<h3 class="mb-3 mt-5">Pending</h3>
 		<div v-for="(order, index) in pending" v-bind:key="index">
-			
-			<h5 class="pointer" v-on:click="navigateToSymbol(order.symbol)">{{ order.symbol }}</h5>
-			<div class="d-flex justify-content-between">
-				<span class="text-muted">{{ order.direction }} x{{ order.quantity }}</span>
-				<div class="pointer text-danger" v-on:click="cancelOrder(order)">Cancel</div>
+			<div class="d-flex">
+				<SymbolLogo class="me-3" :symbol="order.symbol" />
+				<div class="w-100">
+					<h5 class="pointer" v-on:click="navigateToSymbol(order.symbol)">{{ order.symbol }}</h5>
+					<div class="d-flex justify-content-between">
+						<span class="text-muted">{{ order.direction }} x{{ order.quantity }}</span>
+						<div class="pointer text-danger" v-on:click="cancelOrder(order)">Cancel</div>
+					</div>
+				</div>
 			</div>
 				
 			<hr v-if="index < filled.length - 1" />
@@ -28,8 +37,12 @@
 <script>
 import { getApiToken } from "./../mixin.js"
 import axios from "axios"
+import SymbolLogo from "./SymbolLogo.vue"
 
 export default {
+	components: {
+		SymbolLogo
+	},
 	data() {
 		return {
 			orders: []

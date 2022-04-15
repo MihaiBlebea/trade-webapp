@@ -1,15 +1,17 @@
 <template>
 	<div>
 		<h1 class="mb-4">Symbol {{ symbolNameUpper }}</h1>
+
 		<div v-if="symbol !== null">
 			<h4 class="mb-3 d-flex justify-content-between">
 				<div>{{ symbol.symbol }}</div>
 				<div class="text-muted">{{ symbol.title }}</div>
 			</h4>
+			<SymbolLogo :symbol="symbol.symbol" />
 			<hr/>
-			<div class="mb-3">
+			<!-- <div class="mb-3">
 				<p v-for="(d, index) in descriptions" :key="index">{{ d }}</p>
-			</div>
+			</div> -->
 
 			<div class="mb-4 d-flex justify-content-center">
 				<button type="button" class="btn btn-primary" v-on:click="placeOrder">
@@ -17,7 +19,7 @@
 				</button>
 			</div>
 
-			<div class="d-flex justify-content-between">
+			<!-- <div class="d-flex justify-content-between">
 				<p>Beta:</p>
 				<p>{{ symbol.beta }}</p>
 			</div>
@@ -36,16 +38,20 @@
 			<div class="d-flex justify-content-between">
 				<p>Total # shares:</p>
 				<p>{{ symbol.sharesOutstanding }}</p>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
 
 <script>
+import SymbolLogo from "./../components/SymbolLogo.vue"
 import { getApiToken } from "./../mixin.js"
 import axios from "axios"
 
 export default {
+	components: {
+		SymbolLogo
+	},
 	props: ["name"],
 	data() {
 		return {
