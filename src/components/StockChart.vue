@@ -61,11 +61,14 @@ export default {
 				data: {
 					labels: this.charts.map((chart)=> this.timestampToDate(chart.timestamp)).slice(0, 10),
 					datasets: [{
-						label: '# of Votes',
+						label: "Share price",
 						data: this.charts.map((chart)=> chart.close).slice(0, 10),
 						fill: false,
-						borderColor: 'rgb(75, 192, 192)',
-						// tension: 0.1
+						borderColor: "rgb(75, 192, 192)",
+						tension: 0.1,
+						borderWidth: 2,
+						pointHoverRadius: 20,
+						pointHitRadius: 20
 						// backgroundColor: [
 						// 	'rgba(255, 99, 132, 0.2)',
 						// 	'rgba(54, 162, 235, 0.2)',
@@ -85,13 +88,23 @@ export default {
 						// borderWidth: 1
 					}]
 				},
-				// options: {
-				// 	scales: {
-				// 		y: {
-				// 			beginAtZero: true
-				// 		}
-				// 	}
-				// }
+				options: {
+					responsive: true,
+					events: ["click", "touchstart"],
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					},
+					scales: {
+						yAxes: [{
+							display: true,
+							scaleLabel: {
+									display: true,
+									labelString: "Price"
+							}
+						}]
+					},
+				}
 			})
 		},
 		timestampToDate(timestamp) {
