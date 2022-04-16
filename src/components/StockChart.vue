@@ -1,12 +1,11 @@
 <template>
-	<div>
-		<div ref="chart"></div>
-	</div>
+	<canvas ref="chart" width="400" height="400"></canvas>
 </template>
 
 <script>
 import axios from "axios"
-import { createChart } from "lightweight-charts"
+import { Chart } from "chart.js"
+
 
 export default {
 	props: {
@@ -17,7 +16,13 @@ export default {
 	},
 	data() {
 		return {
-			charts: []
+			charts: [],
+			chartData: null,
+			chartOptions: {
+				responsive: true,
+				maintainAspectRatio: false,
+			},
+			ready: false
 		}
 	},
 	methods: {
@@ -50,17 +55,44 @@ export default {
 			})
 		},
 		renderChart() {
-			let chart = createChart(this.$refs["chart"])
-			let candlestickSeries = chart.addCandlestickSeries()
-			candlestickSeries.setData(this.charts.map((chart)=> {
-				return {
-					open: chart.open,
-					close: chart.close,
-					high: chart.high,
-					low: chart.low,
-					time: this.timestampToDate(chart.timestamp)
-				}
-			}))
+			const ctx = this.$refs["chart"].getContext('2d');
+			new Chart(ctx, {
+				type: "line",
+				data: {
+					labels: this.charts.map((chart)=> this.timestampToDate(chart.timestamp)).slice(0, 10),
+					datasets: [{
+						label: '# of Votes',
+						data: this.charts.map((chart)=> chart.close).slice(0, 10),
+						fill: false,
+						borderColor: 'rgb(75, 192, 192)',
+						// tension: 0.1
+						// backgroundColor: [
+						// 	'rgba(255, 99, 132, 0.2)',
+						// 	'rgba(54, 162, 235, 0.2)',
+						// 	'rgba(255, 206, 86, 0.2)',
+						// 	'rgba(75, 192, 192, 0.2)',
+						// 	'rgba(153, 102, 255, 0.2)',
+						// 	'rgba(255, 159, 64, 0.2)'
+						// ],
+						// borderColor: [
+						// 	'rgba(255, 99, 132, 1)',
+						// 	'rgba(54, 162, 235, 1)',
+						// 	'rgba(255, 206, 86, 1)',
+						// 	'rgba(75, 192, 192, 1)',
+						// 	'rgba(153, 102, 255, 1)',
+						// 	'rgba(255, 159, 64, 1)'
+						// ],
+						// borderWidth: 1
+					}]
+				},
+				// options: {
+				// 	scales: {
+				// 		y: {
+				// 			beginAtZero: true
+				// 		}
+				// 	}
+				// }
+			})
 		},
 		timestampToDate(timestamp) {
 			let date = new Date(timestamp * 1000)
