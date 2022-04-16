@@ -8,6 +8,8 @@
 				<div class="text-muted">{{ symbol.title }}</div>
 			</h4>
 			<SymbolLogo :symbol="symbol.symbol" />
+
+			<StockChart :symbol="symbol.symbol" />
 			<hr/>
 			<!-- <div class="mb-3">
 				<p v-for="(d, index) in descriptions" :key="index">{{ d }}</p>
@@ -45,12 +47,14 @@
 
 <script>
 import SymbolLogo from "./../components/SymbolLogo.vue"
+import StockChart from "./../components/StockChart.vue"
 import { getApiToken } from "./../mixin.js"
 import axios from "axios"
 
 export default {
 	components: {
-		SymbolLogo
+		SymbolLogo,
+		StockChart
 	},
 	props: ["name"],
 	data() {
