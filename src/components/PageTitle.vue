@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-primary">
+	<div class="bg-main">
 		<CenterLayout>
 			<h1 class="mb-3 mt-5">{{ title }}</h1>
 		</CenterLayout>

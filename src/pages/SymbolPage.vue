@@ -2,7 +2,7 @@
 	<div>
 		<PageTitle :title="symbolTitle" />
 
-		<div class="bg-primary" v-if="symbol !== null">
+		<div class="bg-main" v-if="symbol !== null">
 			<StockChart :symbol="symbol.symbol" />
 		</div>
 
