@@ -54,7 +54,6 @@ import { getApiToken } from "./../mixin.js"
 import axios from "axios"
 
 export default {
-	props: ["symbolQuery", "directionQuery"],
 	data() {
 		return {
 			symbol: "",
@@ -135,13 +134,14 @@ export default {
 		}
 	},
 	mounted() {
-		if (this.symbolQuery !== undefined) {
-			this.symbol = this.symbolQuery
+		if (this.$route.query.symbol !== undefined) {
+			this.symbol = this.$route.query.symbol.toUpperCase()
 		}
 
-		if (this.directionQuery !== undefined) {
-			this.direction = this.directionQuery
+		if (this.$route.query.direction !== undefined) {
+			this.direction = this.$route.query.direction === "buy" ? "buy" : "sell"
 		}
+		console.log(this.$route)
 	}
 }
 </script>

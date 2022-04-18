@@ -1,5 +1,5 @@
 <template>
-	<canvas ref="chart" width="400" height="400"></canvas>
+	<canvas ref="chart"></canvas>
 </template>
 
 <script>
@@ -27,18 +27,6 @@ export default {
 	},
 	methods: {
 		getCharts() {
-			// let apiToken = getApiToken()
-			// if (apiToken === undefined) {
-			// 	console.error("undefined api token")
-			// 	return
-			// }
-
-			// let options = {
-			// 	headers: {
-			// 		"Authorization": "Bearer " + apiToken
-			// 	}
-			// }
-
 			axios.get(process.env.VUE_APP_BASE_URL + "/chart?symbol=" + this.symbol).then((result)=> {
 				if (result.status !== 200) {
 					throw Error("status code is not 200")
@@ -55,55 +43,63 @@ export default {
 			})
 		},
 		renderChart() {
-			const ctx = this.$refs["chart"].getContext('2d');
+			const ctx = this.$refs["chart"].getContext("2d")
 			new Chart(ctx, {
 				type: "line",
 				data: {
 					labels: this.charts.map((chart)=> this.timestampToDate(chart.timestamp)).slice(0, 10),
 					datasets: [{
-						label: "Share price",
+						label: "Price",
 						data: this.charts.map((chart)=> chart.close).slice(0, 10),
 						fill: false,
 						borderColor: "rgb(75, 192, 192)",
 						tension: 0.1,
 						borderWidth: 2,
 						pointHoverRadius: 20,
-						pointHitRadius: 20
-						// backgroundColor: [
-						// 	'rgba(255, 99, 132, 0.2)',
-						// 	'rgba(54, 162, 235, 0.2)',
-						// 	'rgba(255, 206, 86, 0.2)',
-						// 	'rgba(75, 192, 192, 0.2)',
-						// 	'rgba(153, 102, 255, 0.2)',
-						// 	'rgba(255, 159, 64, 0.2)'
-						// ],
-						// borderColor: [
-						// 	'rgba(255, 99, 132, 1)',
-						// 	'rgba(54, 162, 235, 1)',
-						// 	'rgba(255, 206, 86, 1)',
-						// 	'rgba(75, 192, 192, 1)',
-						// 	'rgba(153, 102, 255, 1)',
-						// 	'rgba(255, 159, 64, 1)'
-						// ],
-						// borderWidth: 1
+						pointHitRadius: 20,
 					}]
 				},
 				options: {
 					responsive: true,
 					events: ["click", "touchstart"],
 					tooltips: {
-						mode: 'index',
-						intersect: true
+						mode: "index",
+						intersect: false
 					},
 					scales: {
+						y: {
+							ticks: {
+								callback: function(val, index) {
+									// Hide every 2nd tick label
+									return index % 2 === 0 ? this.getLabelForValue(val) : '';
+								},
+								color: 'red'
+							}
+						},
 						yAxes: [{
 							display: true,
-							scaleLabel: {
-									display: true,
-									labelString: "Price"
-							}
+						}],
+						xAxes: [{
+							display: false,
 						}]
 					},
+					plugins: {
+						tooltip: {
+							callbacks: {
+								title: function () {
+									return "ceva"
+								},
+								label: function (tooltipItem, data) {
+									console.log(data)
+									return "cev"
+								},
+								footer: function () {
+									return "cfff"
+								}
+							},
+							enabled: false
+						}
+					}
 				}
 			})
 		},

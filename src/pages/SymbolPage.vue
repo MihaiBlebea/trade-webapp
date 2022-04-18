@@ -1,51 +1,53 @@
 <template>
 	<div>
-		<PageTitle :title="symbolTitle" />
-
-		<div class="bg-main" v-if="symbol !== null">
-			<StockChart :symbol="symbol.symbol" />
-		</div>
+		<PageTitle class="mb-4" :title="symbolTitle" :nav-back="true"/>
 
 		<CenterLayout>
 			<div v-if="symbol !== null">
-				<h4 class="mb-3 d-flex justify-content-between">
-					<div>{{ symbol.symbol }}</div>
-					<div class="text-muted">{{ symbol.title }}</div>
-				</h4>
-				<SymbolLogo :symbol="symbol.symbol" />
 
-				<StockChart :symbol="symbol.symbol" />
+				<div class="mb-3 d-flex justify-content-between align-items-center">
+					<div>
+						<h4 class="mb-0">{{ symbol.symbol }}</h4>
+						<div class="text-muted">{{ symbol.industry }}</div>
+					</div>
+					<SymbolLogo :symbol="symbol.symbol" />
+				</div>
+
+				<div v-if="symbol !== null">
+					<StockChart :symbol="symbol.symbol" />
+				</div>
+
 				<hr/>
-				<!-- <div class="mb-3">
-					<p v-for="(d, index) in descriptions" :key="index">{{ d }}</p>
-				</div> -->
 
-				<div class="mb-4 d-flex justify-content-center">
+				<div class="mb-4 d-flex justify-content-evenly">
 					<button type="button" class="btn btn-primary" v-on:click="placeOrder">
-						Place order
+						Sell
+					</button>
+					<button type="button" class="btn btn-primary" v-on:click="placeOrder">
+						Buy
 					</button>
 				</div>
 
-				<!-- <div class="d-flex justify-content-between">
+				<div class="d-flex justify-content-between">
 					<p>Beta:</p>
-					<p>{{ symbol.beta }}</p>
+					<p>{{ symbol.market_price }}</p>
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>Book value:</p>
-					<p>{{ symbol.bookValue }}</p>
+					<p>{{ symbol.market_price }}</p>
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>Quarterly growth:</p>
-					<p>{{ symbol.earningsQuarterlyGrowth }}</p>
+					<p>{{ symbol.market_price }}</p>
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>Profit margin:</p>
-					<p>{{ symbol.profitMargins }}</p>
+					<p>{{ symbol.market_price }}</p>
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>Total # shares:</p>
-					<p>{{ symbol.sharesOutstanding }}</p>
-				</div> -->
+					<p>{{ symbol.market_price }}</p>
+				</div>
 			</div>
 		</CenterLayout>
 	</div>

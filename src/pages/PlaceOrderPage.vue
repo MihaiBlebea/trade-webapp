@@ -1,16 +1,22 @@
 <template>
 	<div>
-		<h1 class="mb-4">Order</h1>
+		<PageTitle class="mb-4" title="Order" :nav-back="true" />
 
-		<OrderForm />
+		<CenterLayout>
+			<OrderForm />
+		</CenterLayout>
 	</div>
 </template>
 
 <script>
-import OrderForm from "../components/OrderForm.vue"
+import CenterLayout from "./../layouts/CenterLayout.vue"
+import PageTitle from "./../components/PageTitle.vue"
+import OrderForm from "./../components/OrderForm.vue"
 
 export default {
 	components: {
+		CenterLayout,
+		PageTitle,
 		OrderForm
 	}
 }
