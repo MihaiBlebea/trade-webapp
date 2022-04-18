@@ -1,16 +1,22 @@
 <template>
 	<div>
-		<h1 class="mb-4">Login</h1>
+		<PageTitle class="mb-4" title="Login" />
 
-		<LoginForm />
+		<CenterLayout>
+			<LoginForm />
+		</CenterLayout>
 	</div>
 </template>
 
 <script>
+import CenterLayout from "./../layouts/CenterLayout.vue"
+import PageTitle from "./../components/PageTitle.vue"
 import LoginForm from "./../components/LoginForm.vue"
 
 export default {
 	components: {
+		CenterLayout,
+		PageTitle,
 		LoginForm
 	}
 }

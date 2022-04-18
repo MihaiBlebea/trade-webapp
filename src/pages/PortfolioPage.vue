@@ -1,21 +1,27 @@
 <template>
 	<div>
-		<h1 class="mb-4">Portfolio</h1>
+		<PageTitle class="mb-4" title="Portfolio" />
 
-		<AccountBalance class="mb-3"/>
-		<hr/>
-		<PositionList />
+		<CenterLayout>
+			<AccountBalance class="mb-3"/>
+			<hr/>
+			<PositionList />
+		</CenterLayout>
 	</div>
 </template>
 
 <script>
+import CenterLayout from "./../layouts/CenterLayout.vue"
 import PositionList from "./../components/PositionList.vue"
 import AccountBalance from "./../components/AccountBalance.vue"
+import PageTitle from "./../components/PageTitle.vue"
 
 export default {
 	components: {
+		CenterLayout,
 		PositionList,
-		AccountBalance
+		AccountBalance,
+		PageTitle
 	}
 }
 </script>

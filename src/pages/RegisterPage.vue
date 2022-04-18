@@ -1,16 +1,22 @@
 <template>
 	<div>
-		<h1 class="mb-4">Register</h1>
+		<PageTitle class="mb-4" title="Register" />
 
-		<RegisterForm />
+		<CenterLayout>
+			<RegisterForm />
+		</CenterLayout>
 	</div>
 </template>
 
 <script>
-import RegisterForm from "../components/RegisterForm.vue"
+import CenterLayout from "./../layouts/CenterLayout.vue"
+import PageTitle from "./../components/PageTitle.vue"
+import RegisterForm from "./../components/RegisterForm.vue"
 
 export default {
 	components: {
+		CenterLayout,
+		PageTitle,
 		RegisterForm
 	}
 }

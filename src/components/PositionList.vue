@@ -1,18 +1,25 @@
 <template>
-	<div v-for="(pos, index) in positions" :key="index">
-		<div class="d-flex">
-			<SymbolLogo class="me-3" :symbol="pos.symbol" />
-			<div class="w-100">
-				<h5 class="pointer" v-on:click="navigateToSymbol(pos.symbol)">
-					{{ pos.symbol }}
-				</h5>
-				<div class="d-flex justify-content-between">
-					<span>{{ pos.quantity }} shares</span>
-					<div class="pointer text-success" v-on:click="sellOrder(pos.symbol)">Sell</div>
+	<div>
+		<div v-if="hasPositions">
+			<div v-for="(pos, index) in positions" :key="index">
+				<div class="d-flex">
+					<SymbolLogo class="me-3" :symbol="pos.symbol" />
+					<div class="w-100">
+						<h5 class="pointer" v-on:click="navigateToSymbol(pos.symbol)">
+							{{ pos.symbol }}
+						</h5>
+						<div class="d-flex justify-content-between">
+							<span>{{ pos.quantity }} shares</span>
+							<div class="pointer text-success" v-on:click="sellOrder(pos.symbol)">Sell</div>
+						</div>
+					</div>
 				</div>
+				<hr v-if="index < positions.length - 1"/>
 			</div>
 		</div>
-		<hr v-if="index < positions.length - 1"/>
+		<div v-else>
+			<p class="text-muted text-center">No positions</p>
+		</div>
 	</div>
 </template>
 
@@ -28,6 +35,11 @@ export default {
 	data() {
 		return {
 			positions: []
+		}
+	},
+	computed: {
+		hasPositions() {
+			return this.positions.length > 0
 		}
 	},
 	methods: {

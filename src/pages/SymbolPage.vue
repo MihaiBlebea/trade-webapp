@@ -1,51 +1,59 @@
 <template>
 	<div>
-		<h1 class="mb-4">Symbol {{ symbolNameUpper }}</h1>
+		<PageTitle :title="symbolTitle" />
 
-		<div v-if="symbol !== null">
-			<h4 class="mb-3 d-flex justify-content-between">
-				<div>{{ symbol.symbol }}</div>
-				<div class="text-muted">{{ symbol.title }}</div>
-			</h4>
-			<SymbolLogo :symbol="symbol.symbol" />
-
+		<div class="bg-primary" v-if="symbol !== null">
 			<StockChart :symbol="symbol.symbol" />
-			<hr/>
-			<!-- <div class="mb-3">
-				<p v-for="(d, index) in descriptions" :key="index">{{ d }}</p>
-			</div> -->
-
-			<div class="mb-4 d-flex justify-content-center">
-				<button type="button" class="btn btn-primary" v-on:click="placeOrder">
-					Place order
-				</button>
-			</div>
-
-			<!-- <div class="d-flex justify-content-between">
-				<p>Beta:</p>
-				<p>{{ symbol.beta }}</p>
-			</div>
-			<div class="d-flex justify-content-between">
-				<p>Book value:</p>
-				<p>{{ symbol.bookValue }}</p>
-			</div>
-			<div class="d-flex justify-content-between">
-				<p>Quarterly growth:</p>
-				<p>{{ symbol.earningsQuarterlyGrowth }}</p>
-			</div>
-			<div class="d-flex justify-content-between">
-				<p>Profit margin:</p>
-				<p>{{ symbol.profitMargins }}</p>
-			</div>
-			<div class="d-flex justify-content-between">
-				<p>Total # shares:</p>
-				<p>{{ symbol.sharesOutstanding }}</p>
-			</div> -->
 		</div>
+
+		<CenterLayout>
+			<div v-if="symbol !== null">
+				<h4 class="mb-3 d-flex justify-content-between">
+					<div>{{ symbol.symbol }}</div>
+					<div class="text-muted">{{ symbol.title }}</div>
+				</h4>
+				<SymbolLogo :symbol="symbol.symbol" />
+
+				<StockChart :symbol="symbol.symbol" />
+				<hr/>
+				<!-- <div class="mb-3">
+					<p v-for="(d, index) in descriptions" :key="index">{{ d }}</p>
+				</div> -->
+
+				<div class="mb-4 d-flex justify-content-center">
+					<button type="button" class="btn btn-primary" v-on:click="placeOrder">
+						Place order
+					</button>
+				</div>
+
+				<!-- <div class="d-flex justify-content-between">
+					<p>Beta:</p>
+					<p>{{ symbol.beta }}</p>
+				</div>
+				<div class="d-flex justify-content-between">
+					<p>Book value:</p>
+					<p>{{ symbol.bookValue }}</p>
+				</div>
+				<div class="d-flex justify-content-between">
+					<p>Quarterly growth:</p>
+					<p>{{ symbol.earningsQuarterlyGrowth }}</p>
+				</div>
+				<div class="d-flex justify-content-between">
+					<p>Profit margin:</p>
+					<p>{{ symbol.profitMargins }}</p>
+				</div>
+				<div class="d-flex justify-content-between">
+					<p>Total # shares:</p>
+					<p>{{ symbol.sharesOutstanding }}</p>
+				</div> -->
+			</div>
+		</CenterLayout>
 	</div>
 </template>
 
 <script>
+import CenterLayout from "./../layouts/CenterLayout.vue"
+import PageTitle from "./../components/PageTitle.vue"
 import SymbolLogo from "./../components/SymbolLogo.vue"
 import StockChart from "./../components/StockChart.vue"
 import { getApiToken } from "./../mixin.js"
@@ -53,6 +61,8 @@ import axios from "axios"
 
 export default {
 	components: {
+		CenterLayout,
+		PageTitle,
 		SymbolLogo,
 		StockChart
 	},
@@ -72,6 +82,9 @@ export default {
 		},
 		symbolNameUpper() {
 			return this.name.toUpperCase()
+		},
+		symbolTitle() {
+			return this.symbol === null ? "Symbol" : this.symbol.title
 		}
 	},
 	methods: {
