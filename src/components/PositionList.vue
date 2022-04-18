@@ -1,19 +1,28 @@
 <template>
 	<div>
 		<div v-if="hasPositions">
+			<div class="d-flex justify-content-between mb-2">
+				<div>Equity:</div>
+				<div><i>{{ fmtAmount(equity) }}</i></div>
+			</div>
+			<div class="d-flex justify-content-between mb-2">
+				<div>Investment:</div>
+				<div><i>{{ fmtAmount(investment) }}</i></div>
+			</div>
+			<div 
+				class="d-flex justify-content-between mb-2" 
+				v-bind:class="{ 'text-success': isProfit, 'text-danger': !isProfit }"
+			>
+				<div>{{ diffLabel }}:</div>
+				<div><i>{{ fmtAmount(diffValue) }}</i></div>
+			</div>
+			<hr/>
 			<div v-for="(pos, index) in positions" :key="index">
-				<div class="d-flex">
-					<SymbolLogo class="me-3" :symbol="pos.symbol" />
-					<div class="w-100">
-						<h5 class="pointer" v-on:click="navigateToSymbol(pos.symbol)">
-							{{ pos.symbol }}
-						</h5>
-						<div class="d-flex justify-content-between">
-							<span>{{ pos.quantity }} shares</span>
-							<div class="pointer text-success" v-on:click="sellOrder(pos.symbol)">Sell</div>
-						</div>
-					</div>
-				</div>
+				<PositionItem 
+					:position="pos" 
+					v-on:nav-to-symbol="navigateToSymbol"
+					v-on:sell="sellOrder"
+				/>
 				<hr v-if="index < positions.length - 1"/>
 			</div>
 		</div>
@@ -26,11 +35,11 @@
 <script>
 import { getApiToken } from "./../mixin.js"
 import axios from "axios"
-import SymbolLogo from "./SymbolLogo.vue"
+import PositionItem from "./PositionItem.vue"
 
 export default {
 	components: {
-		SymbolLogo
+		PositionItem
 	},
 	data() {
 		return {
@@ -40,6 +49,21 @@ export default {
 	computed: {
 		hasPositions() {
 			return this.positions.length > 0
+		},
+		equity() {
+			return this.positions.reduce((total, pos) => total += pos.total_value, 0)
+		},
+		investment() {
+			return this.positions.reduce((total, pos) => total += pos.bought_total_price, 0)
+		},
+		isProfit() {
+			return this.diffValue > 0
+		},
+		diffLabel() {
+			return this.isProfit ? "Profit" : "Loss"
+		},
+		diffValue() {
+			return this.equity - this.investment
 		}
 	},
 	methods: {
@@ -71,10 +95,14 @@ export default {
 			})
 		},
 		sellOrder(symbol) {
-			this.$router.push("/order/" + symbol)
+			this.$router.push("/order?symbol=" + symbol + "&direction=sell")
 		},
 		navigateToSymbol(symbol) {
 			this.$router.push("/symbol/" + symbol)
+		},
+		fmtAmount(amount) {
+			let val = "$" + Math.round(amount * 100) / 100
+			return amount > 0 ? val : "-" + val
 		}
 	},
 	mounted() {
@@ -82,9 +110,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.pointer {
-	cursor: pointer;
-}
-</style>

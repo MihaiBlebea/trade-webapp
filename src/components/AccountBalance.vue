@@ -1,10 +1,10 @@
 <template>
-	<div>
-		<div class="d-flex justify-content-between mb-2" v-if="isReady">
+	<div v-if="isReady">
+		<div class="d-flex justify-content-between mb-2">
 			<div>Balance:</div>
-			<div><i>${{ account.balance }}</i></div>
+			<div><i>${{ account.balance - account.pending_balance }}</i></div>
 		</div>
-		<div class="d-flex justify-content-between" v-if="isReady">
+		<div class="d-flex justify-content-between">
 			<div>Pending balance:</div>
 			<div><i>${{ account.pending_balance }}</i></div>
 		</div>
