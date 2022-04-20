@@ -3,16 +3,10 @@
 		<div v-if="hasFilledOrders" class="mb-5">
 			<h3 class="mb-3">Filled</h3>
 			<div class="mb-3" v-for="(order, index) in filled" :key="index">
-				<div class="d-flex">
-					<SymbolLogo class="me-3" :symbol="order.symbol" />
-					<div class="w-100">
-						<h5 class="pointer" v-on:click="navigateToSymbol(order.symbol)">{{ order.symbol }}</h5>
-						<div class="d-flex justify-content-between">
-							<span class="text-muted">{{ order.direction }} x{{ order.quantity }}</span>
-							<div class="pointer text-success" v-on:click="sellOrder(order)">Sell</div>
-						</div>
-					</div>
-				</div>
+				<OrderItem
+					:order="order"
+					v-on:nav-to-symbol="navigateToSymbol"
+				/>
 
 				<hr v-if="index < filled.length - 1" />
 			</div>
@@ -21,16 +15,11 @@
 		<div v-if="hasPendingOrders">
 			<h3 class="mb-3">Pending</h3>
 			<div v-for="(order, index) in pending" v-bind:key="index">
-				<div class="d-flex">
-					<SymbolLogo class="me-3" :symbol="order.symbol" />
-					<div class="w-100">
-						<h5 class="pointer" v-on:click="navigateToSymbol(order.symbol)">{{ order.symbol }}</h5>
-						<div class="d-flex justify-content-between">
-							<span class="text-muted">{{ order.direction }} x{{ order.quantity }}</span>
-							<div class="pointer text-danger" v-on:click="cancelOrder(order)">Cancel</div>
-						</div>
-					</div>
-				</div>
+				<OrderItem 
+					:order="order"
+					v-on:nav-to-symbol="navigateToSymbol" 
+					v-on:cancel="cancelOrder"
+				/>
 					
 				<hr v-if="index < filled.length - 1" />
 			</div>
@@ -45,11 +34,11 @@
 <script>
 import { getApiToken } from "./../mixin.js"
 import axios from "axios"
-import SymbolLogo from "./SymbolLogo.vue"
+import OrderItem from "./OrderItem.vue"
 
 export default {
 	components: {
-		SymbolLogo
+		OrderItem
 	},
 	data() {
 		return {
